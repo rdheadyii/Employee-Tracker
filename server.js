@@ -137,12 +137,12 @@ function empManagerTable() {
     });
 };
 
-// function for all roles gives (roleID, roleName, salary, departmentID, departmentName)
+// function for all roles gives (role id, role, salary, department id, department)
 function roleTable() {
-    let sql = `SELECT r.id AS roleID, r.title AS roleName, r.salary, r.department_id AS departmentID, d.name AS departmentName FROM employee e
+    let sql = `SELECT r.id AS roleID, r.title AS Role, r.salary, r.department_id AS departmentID, d.name AS Department FROM employee e
     LEFT JOIN role r ON e.role_id = r.id
     LEFT JOIN department d ON r.department_id = d.id
-    GROUP BY r.id, r.title;`;
+    GROUP BY r.id, r.title`;
 
     db.query(sql, function (err, res) {
         if(err) throw err;
@@ -151,8 +151,12 @@ function roleTable() {
     });
 };
 
+// function for the budget departments gives (is, department, budget)
 function deptBudget() {
-    let sql = '';
+    let sql = `SELECT d.id, d.name AS Department, SUM(r.salary) AS Budget FROM employee e
+    LEFT JOIN role r ON e.role_id = r.id
+    LEFT JOIN department d ON r.department_id = d.id
+    GROUP BY d.id, d.name`;
 
     db.query(sql, function (err, res) {
         if(err) throw err;
