@@ -134,8 +134,12 @@ function empManagerTable() {
     });
 };
 
+// function for all roles gives (roleID, roleName, salary, departmentID, departmentName)
 function roleTable() {
-    let sql = '';
+    let sql = `SELECT r.id AS roleID, r.title AS roleName, r.salary, r.department_id AS departmentID, d.name AS departmentName FROM employee e
+    LEFT JOIN role r ON e.role_id = r.id
+    LEFT JOIN department d ON r.department_id = d.id
+    GROUP BY r.id, r.title;`;
 
     db.query(sql, function (err, res) {
         console.table(res);
