@@ -93,7 +93,10 @@ function searchDB() {
 };
 
 function employeeTable() {
-    let sql = 'SELECT employee.id, employee.first_name, employee.last_name, role.title ';
+    let sql = `SELECT e.id , e.first_name, e.last_name, r.title,  d.name as department, r.salary, CONCAT(m.first_name,' ',m.last_name) as manager from employee e 
+    LEFT JOIN role r ON e.role_id = r.id
+    LEFT JOIN department d ON r.department_id = d.id 
+    LEFT JOIN employee m ON m.id = e.manager_id`;
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -102,7 +105,7 @@ function employeeTable() {
 };
 
 function deptTable() {
-    let sql = 'SELECT name, id FROM employees.department ORDER BY id asc';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res);
@@ -111,7 +114,7 @@ function deptTable() {
 };
 
 function empManagerTable() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -120,7 +123,7 @@ function empManagerTable() {
 };
 
 function roleTable() {
-    let sql = 'SELECT role.title, role.salary, department.name FROM role, department WHERE department.id = role.department_id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res);
@@ -129,7 +132,7 @@ function roleTable() {
 };
 
 function deptBudget() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -170,7 +173,7 @@ function addEmployee() {
         },
     ])
     .then(function (answer) {
-        let sql = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE (?, ?, ?, ?)';
+        let sql = '';
 
         db.query(sql, [answer.firstName, answer.lastName, answer.roleID], function (err, res) {
             if (err) throw err;
@@ -187,7 +190,7 @@ function addDept() {
         message: 'What is the name of the new department?'
     })
     .then(function (answer) {
-        let sql = 'INSERT INTO department (name) VALUE (?)';
+        let sql = '';
 
         db.query(sql, answer.deptName, function (err, res) {
             if (err) throw err;
@@ -224,7 +227,7 @@ function addRole() {
         },
     ])
     .then(function (answer) {
-        let sql = 'INSERT INTO role (title, salary, department_id) VALUE (?, ?, ?)';
+        let sql = '';
 
         db.query(sql, [answer.title, answer.salary, answer.departmentID], function (err, res) {
             if (err) throw err;
@@ -235,7 +238,7 @@ function addRole() {
 };
 
 function updateEmpRole() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -244,7 +247,7 @@ function updateEmpRole() {
 };
 
 function updateEmpManager() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -253,7 +256,7 @@ function updateEmpManager() {
 };
 
 function removeEmp() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -262,7 +265,7 @@ function removeEmp() {
 };
 
 function removeDept() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
@@ -271,7 +274,7 @@ function removeDept() {
 };
 
 function removeRole() {
-    let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
+    let sql = '';
 
     db.query(sql, function (err, res) {
         console.table(res)
