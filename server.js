@@ -5,8 +5,8 @@ const cTable = require("console.table");
 const mysql = require('mysql2');
 
 // make connection to database
-db.connect((error) => {
-    if(error) throw error;
+db.connect((err) => {
+    if(err) throw err;
     searchDB();
 });
 
@@ -102,6 +102,7 @@ function employeeTable() {
     LEFT JOIN employee m ON m.id = e.manager_id`;
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -115,6 +116,7 @@ function deptTable() {
     ORDER BY d.name`;
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res);
         searchDB();
     });
@@ -129,6 +131,7 @@ function empManagerTable() {
     ORDER BY manager`;
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -142,6 +145,7 @@ function roleTable() {
     GROUP BY r.id, r.title;`;
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res);
         searchDB();
     });
@@ -151,6 +155,7 @@ function deptBudget() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -257,6 +262,7 @@ function updateEmpRole() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -266,6 +272,7 @@ function updateEmpManager() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -275,6 +282,7 @@ function removeEmp() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -284,6 +292,7 @@ function removeDept() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
@@ -293,6 +302,7 @@ function removeRole() {
     let sql = '';
 
     db.query(sql, function (err, res) {
+        if(err) throw err;
         console.table(res)
         searchDB();
     });
