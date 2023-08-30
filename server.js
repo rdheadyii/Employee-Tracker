@@ -78,7 +78,7 @@ function employeeTable() {
     let sql = 'SELECT employee.first_name, employee.last_name, role.title FROM employee, role WHERE employee.id = role.id;';
 
     db.query(sql, function (err, res) {
-        console.log(res);
+        console.table(res)
         searchDB();
     });
 }
