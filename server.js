@@ -4,11 +4,13 @@ const db = require('./assets/helpers/connection.js');
 const cTable = require("console.table");
 const mysql = require('mysql2');
 
+// make connection to database
 db.connect((error) => {
     if(error) throw error;
     searchDB();
 });
 
+// function for initial prompts will run other functions using switch depending on which answer selected
 function searchDB() {
     inquirer.prompt({
         name: 'select',
@@ -92,6 +94,7 @@ function searchDB() {
     });
 };
 
+// function for all employees gives (id, first name, last name, title, department, salary, manager)
 function employeeTable() {
     let sql = `SELECT e.id , e.first_name, e.last_name, r.title,  d.name as department, r.salary, CONCAT(m.first_name,' ',m.last_name) AS manager FROM employee e 
     LEFT JOIN role r ON e.role_id = r.id
@@ -104,8 +107,12 @@ function employeeTable() {
     });
 };
 
+// function for employees by department gives (department, title, id, first name, last name)
 function deptTable() {
-    let sql = `SELECT `;
+    let sql = `SELECT d.name AS department, r.title, e.id, e.first_name, e.last_name FROM employee e
+    LEFT JOIN role r ON (r.id = e.role_id)
+    LEFT JOIN department d ON (d.id = r.department_id)
+    ORDER BY d.name`;
 
     db.query(sql, function (err, res) {
         console.table(res);
@@ -113,8 +120,13 @@ function deptTable() {
     });
 };
 
+// function for employees by manager gives (manager, department, id, first name, last name, title)
 function empManagerTable() {
-    let sql = '';
+    let sql = `SELECT CONCAT(m.first_name, ' ', m.last_name) AS manager, d.name AS department, e.id, e.first_name, e.last_name, r.title FROM employee e
+    LEFT JOIN employee m ON m.id = e.manager_id
+    INNER JOIN role r ON (r.id = e.role_id && e.manager_id != 'NULL')
+    INNER JOIN department d ON (d.id = r.department_id)
+    ORDER BY manager`;
 
     db.query(sql, function (err, res) {
         console.table(res)
